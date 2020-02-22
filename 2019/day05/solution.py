@@ -11,10 +11,8 @@ def run(input):
         parmode = instr[0:3]
         if opcode != 99:
             x1 = p[i+1] if int(parmode[2]) else p[p[i+1]]
-            try:
-                x2 = p[i+2] if int(parmode[1]) else p[p[i+2]]
-            except IndexError:
-                pass
+        if opcode in [1, 2, 5, 6, 7, 8]:
+            x2 = p[i+2] if int(parmode[1]) else p[p[i+2]]
         if opcode == 99:
             print('Halted')
             break
