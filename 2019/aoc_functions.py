@@ -18,6 +18,9 @@ class intcode_machine:
     def __setitem__(self, index, val):
         self.l[index] = val
         
+    def set_inputs(self, new_input):
+        self.inputs = deque(new_input)
+    
     def add_inputs(self, new_input):
         for x in new_input:        
             self.inputs.append(x)
@@ -71,6 +74,12 @@ class intcode_machine:
     def run_till_halt(self):
         while self.opcode != 99:
             self.run()
+        return self.output
+    
+    def run_till_output(self):
+        while self.opcode != 4:
+            self.run()
+        self.opcode = None
         return self.output
     
     def run_till_output_or_halt(self):
