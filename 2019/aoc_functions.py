@@ -76,12 +76,6 @@ class intcode_machine:
             self.run()
         return self.output
     
-    def run_till_output(self):
-        while self.opcode != 4:
-            self.run()
-        self.opcode = None
-        return self.output
-    
     def run_till_output_or_halt(self):
         while self.opcode not in [4, 99]:
             self.run()
