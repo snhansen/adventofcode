@@ -60,5 +60,3 @@ for y in reversed(range(ymin, ymax+1)):
 
 for i in range(len(result)):
     print(result[i])
-
-
