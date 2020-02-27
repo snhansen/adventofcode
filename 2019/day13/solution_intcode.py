@@ -1,6 +1,5 @@
 import sys
 import os
-import itertools
 import numpy as np
 sys.path.insert(1, os.path.dirname(os.getcwd()))
 from aoc_functions import intcode_machine
