@@ -1,6 +1,5 @@
 # The IntCode machine as a class. Heavily inspired by https://github.com/fuglede
-from collections import deque
-from collections import defaultdict
+from collections import defaultdict, deque
 
                 
 class intcode_machine:
@@ -11,6 +10,7 @@ class intcode_machine:
         self.opcode = None
         self.output = None
         self.relbase = 0
+
         
     def __getitem__(self, index):
         return self.l[index]
@@ -85,3 +85,33 @@ class intcode_machine:
         elif self.opcode == 4:
             self.opcode = None
             return 0, self.output
+
+
+class maze_robot(intcode_machine):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        self.pos = 0
+        self.visited = [0]
+        self.dirs = []
+        self.status = 0
+    
+    def clone(self):
+        clone = maze_robot([])
+        clone.i = self.i
+        clone.l = defaultdict(int, self.l.items())
+        clone.relbase = self.relbase
+        clone.pos = self.pos
+        clone.visited = list(self.visited)
+        clone.dirs = list(self.dirs)
+        return clone
+    
+    def move(self, dir):
+        coord = {1: 1j, 2: -1j, 3: -1, 4: 1}
+        self.add_inputs([dir])
+        _, status = self.run_till_output_or_halt()
+        if status:
+            self.status = status
+            self.pos = self.pos + coord[dir]
+            self.visited.append(self.pos)
+            self.dirs.append(dir)
+        return status
