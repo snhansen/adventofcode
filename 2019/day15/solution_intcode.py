@@ -10,7 +10,7 @@ with open('input') as f:
 
 
 d = {1: 1j, 2: -1j, 3: -1, 4: 1}
-
+o = {1: 2, 2: 1, 3: 4, 4: 3}
 
 # Part 1.1 (BFS)
 def find_shortest_path(pos, robot):
@@ -58,7 +58,36 @@ while True:
         break
 
 print(oxy_robot.pos)
-print(len(oxy_robot.dirs))
+print(len(oxy_robot.dir_history))
+
+# Part 1.3 (DFS)
+def go_to_end(robot):
+    oxy_robot = None
+    while True:
+        try:
+            dir = [i for i in robot.get_dirs() if robot.pos + d[i] not in robot.visited][0]
+        except IndexError:
+            break
+        status = robot.move(dir)
+        if status == 2:
+            oxy_robot = robot.clone()
+    return oxy_robot
+
+robot = maze_robot(inp, [])
+robot.move(1)
+
+while True:
+    if robot.pos == 0:
+        break
+    temp = go_to_end(robot)
+    if temp:
+        oxy_robot = temp
+    robot.move(o[robot.dir_history.pop()])
+    robot.dir_history.pop()
+
+print(oxy_robot.pos)
+print(len(oxy_robot.dir_history))
+
 
 # Part 2
 oxy_pos = oxy_robot.pos
