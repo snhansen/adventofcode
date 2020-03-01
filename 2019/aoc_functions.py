@@ -10,7 +10,6 @@ class intcode_machine:
         self.opcode = None
         self.output = None
         self.relbase = 0
-
         
     def __getitem__(self, index):
         return self.l[index]
@@ -92,8 +91,8 @@ class maze_robot(intcode_machine):
         super(self.__class__, self).__init__(*args, **kwargs)
         self.pos = 0
         self.visited = [0]
-        self.dirs = []
         self.status = 0
+        self.dir_history = deque([])
     
     def clone(self):
         clone = maze_robot([])
@@ -102,7 +101,7 @@ class maze_robot(intcode_machine):
         clone.relbase = self.relbase
         clone.pos = self.pos
         clone.visited = list(self.visited)
-        clone.dirs = list(self.dirs)
+        clone.dir_history = deque(self.dir_history)
         return clone
     
     def move(self, dir):
@@ -113,5 +112,17 @@ class maze_robot(intcode_machine):
             self.status = status
             self.pos = self.pos + coord[dir]
             self.visited.append(self.pos)
-            self.dirs.append(dir)
+            self.dir_history.append(dir)
         return status
+        
+    def get_dirs(self):
+        o = {1: 2, 2: 1, 3: 4, 4: 3}
+        dirs = []
+        for dir in range(1,5):
+            self.add_inputs([dir])
+            _, status = self.run_till_output_or_halt()
+            if status:
+                dirs.append(dir)
+                self.add_inputs([o[dir]])
+                self.run_till_output_or_halt()
+        return dirs
