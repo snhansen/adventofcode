@@ -1,6 +1,5 @@
 import networkx as nx
 from collections import defaultdict, deque
-import math
 
 with open('input') as f:
     ls = [x.strip('\n') for x in f.readlines()]
