@@ -38,9 +38,8 @@ def bio_rating(g):
         
 # Part 1
 grid_cp = dict(grid)
-grids = [grid]
+grids = [grid_cp]
 
-break_var = False
 while True:
     grid_cp = update_grid(grid_cp)
     if grid_cp in grids:
