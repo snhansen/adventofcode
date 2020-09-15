@@ -85,7 +85,6 @@ class intcode_machine:
             self.opcode = None
             return 0, self.output
 
-
 class maze_robot(intcode_machine):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
@@ -126,3 +125,79 @@ class maze_robot(intcode_machine):
                 self.add_inputs([o[dir]])
                 self.run_till_output_or_halt()
         return dirs
+
+class droid(intcode_machine):
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        self.items = []
+        self.items_col = []
+        self.msg = ''
+        self.dirs = []
+        self.dir_history = deque([])
+    
+    def run_till_prompt(self):
+        outp = []
+        while True:
+            try:
+                halt, output = self.run_till_output_or_halt()
+            except IndexError:
+                break
+            if halt:
+                break
+            outp.append(output)
+            outp_str = ''.join(chr(x) for x in outp)
+        dirs = [dir for dir in ['north', 'west', 'east', 'south'] if dir in outp_str]
+        try:
+            items = [x.split('- ')[1] for x in outp_str.split('Items here:')[1].split('\n') if '- ' in x]
+        except IndexError:
+            items = None
+        
+        return outp_str, dirs, items
+    
+    def initialize(self):
+        outp, dirs, items = self.run_till_prompt()
+        self.msg = outp
+        self.dirs = dirs
+        self.items = items
+    
+    def move(self, dir):
+        coord = {'north': 1j, 'south': -1j, 'east': 1, 'west': -1}
+        self.add_inputs(list(map(ord, dir + '\n')))
+        outp, dirs, items = self.run_till_prompt()
+        self.msg = outp
+        self.dirs = dirs
+        self.items = items
+        self.dir_history.append(dir)
+        
+    def clone(self):
+        clone = droid([])
+        clone.i = self.i
+        clone.l = defaultdict(int, self.l.items())
+        clone.relbase = self.relbase
+        clone.items = self.items
+        clone.dirs = self.dirs
+        clone.msg = self.msg
+        clone.items_col = list(self.items_col)
+        clone.dir_history = deque(self.dir_history)
+        return clone
+    
+    def take(self, item):
+        if item not in self.items:
+            print('Item not available')
+        else:
+            self.add_inputs(list(map(ord, f'take {item}\n')))
+            outp, dirs, items = self.run_till_prompt()
+            self.items_col.append(item)
+            self.items = items
+            self.msg = outp
+    
+    def drop(self, item):
+        if item not in self.items_col:
+            print('Item not in your possession')
+        else:
+            self.add_inputs(list(map(ord, f'drop {item}\n')))
+            outp, dirs, items = self.run_till_prompt()
+            self.items_col.remove(item)
+            self.items = items
+            self.msg = outp
+        
