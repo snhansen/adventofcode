@@ -1,8 +1,7 @@
 with open('input') as f:
-    inp = f.read().split('\n')
+    inp = [x.strip() for x in f.readlines()]
 
-del inp[-1]
-n = 1000
+n = 1000    
 
 # Part 1
 lights = [[0]*n for i in range(n)]

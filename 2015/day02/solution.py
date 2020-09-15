@@ -1,7 +1,5 @@
 with open('input') as f:
-    inp = f.read().split('\n')
-
-del inp[-1]
+    inp = [x.strip() for x in f.readlines()]
 
 # Part 1
 paper = 0
