@@ -2,7 +2,7 @@ from collections import deque
 import sys
 import time
 
-with open('test9') as f:
+with open('input') as f:
     inp = f.read()
     
 #print(inp)
