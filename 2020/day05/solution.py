@@ -10,8 +10,6 @@ def partition(s, n):
 			upper = int(upper - length/2)
 		elif c in ['B', 'R']:
 			lower = int(lower + length/2)
-	if lower != upper:
-		print('ERROR')
 	return lower
 
 def get_seat(s):
