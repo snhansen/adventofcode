@@ -9,11 +9,11 @@ def run(ls):
         if i == len(ls):
             terminate = True
             break
-        instr = ls[i].split(' ')[0]
-        val = int(ls[i].split(' ')[1])
         if i in seen:
             terminate = False
             break
+        instr = ls[i].split(' ')[0]
+        val = int(ls[i].split(' ')[1])
         seen.add(i)
         if instr == 'nop':
             i += 1
@@ -39,3 +39,4 @@ for j in range(len(inp)):
         terminate, acc = run(inp_mod)
         if terminate:
             print(acc)  
+            break
