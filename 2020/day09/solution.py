@@ -21,5 +21,7 @@ print(inv)
 for i in range(len(inp)):
     for j in range(i+1, len(inp)):
         ls = inp[i:j+1]
+        if sum(ls) > inv:
+            break
         if sum(ls) == inv:
             print(min(ls)+max(ls))
