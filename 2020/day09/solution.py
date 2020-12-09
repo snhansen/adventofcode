@@ -7,8 +7,8 @@ with open('input') as f:
 i = 25
 while True:
     valid = False
-    for y, z in combinations(inp[i-25:i], 2):
-        if inp[i] == y + z:
+    for x in combinations(inp[i-25:i], 2):
+        if inp[i] == sum(x):
             valid = True
     if not valid:
         inv = inp[i]
