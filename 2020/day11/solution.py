@@ -1,3 +1,5 @@
+from collections import Counter
+
 with open('input') as f:
     inp = f.read()
 
@@ -11,26 +13,25 @@ for x in inp:
         i = 0
         j += 1
 
+c = max([int(x.real) for x in seats.keys()])
+r = max([int(x.imag) for x in seats.keys()])
+
 def get_occ(d, p, part2 = False):
-    c = 0
-    for q in [-1-1j, -1, -1+1j, -1j, 1j, 1+1j, 1, 1-1j]:
-        if not part2:
-            try:
-                if d[p+q] == '#':
-                    c += 1
-            except KeyError:
-                continue
-        else:
+    if not part2:
+        return Counter(d[p+x+y*1j] for x in (-1, 0, 1) for y in (-1, 0, 1) if x+y*1j != 0 and 0 <= (p+x+y*1j).real <= c and 0 <= (p+x+y*1j).imag <= r)['#']
+    else:
+        n = 0
+        for q in (x+y*1j for x in (-1, 0, 1) for y in (-1, 0, 1) if x+y*1j != 0):
             k = 1
             while True:
                 try:
                     if d[p+k*q] != '.':
-                        c += (d[p+k*q] == '#')
+                        n += (d[p+k*q] == '#')
                         break
                 except KeyError:
                     break
                 k += 1
-    return c
+        return n
 
 def update_seats(d, part2 = False):
     d_new = dict(d)
@@ -42,13 +43,13 @@ def update_seats(d, part2 = False):
             d_new[p] = 'L'
     return d_new
 
+        
 def solve(d, part2 = False):
-    seen = [d]
     while True:
+        old_d = d
         d = update_seats(d, part2)
-        if d in seen:
+        if d == old_d:
             return list(d.values()).count('#')
-        seen.append(d)
 
 # Part 1
 print(solve(seats))
