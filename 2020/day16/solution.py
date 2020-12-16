@@ -52,16 +52,10 @@ def does_comply(ranges, col):
              
 d_comply = {i : does_comply(ranges, [t[i] for t in tickets]) for i in range(len(tickets[0]))}
 
-seen = set()
-while math.prod(list(map(len, d_comply.values()))) != 1:
-    for c in d_comply:
-        if len(d_comply[c]) == 1:
-            seen.add(d_comply[c][0])
-        for t in seen:
-            if len(d_comply[c]) > 1 and t in d_comply[c]:
-                d_comply[c].remove(t)
-
-
-cols = [i for i in range(len(d_comply)) if d_comply[i][0] <= 5]
-print(math.prod([my[i] for i in cols]))          
+used = set()
+for c in sorted(d_comply, key = lambda l: len(d_comply[l])):
+    for x in used:
+        d_comply[c].remove(x)
+    used = used.union(d_comply[c])
     
+print(math.prod([my[i] for i in sorted(d_comply, key = lambda l: d_comply[l][0])[:6]]))
