@@ -7,7 +7,6 @@ def get_score(decks):
     return sum([sum([x*y for x, y in zip(reversed(range(1,len(deck)+1)), deck)]) for deck in decks])
 
 # Part 1
-decks = [deque(inp[0]), deque(inp[1])]
 decks = [deque(deck) for deck in inp]
 
 while decks[0] and decks[1]:
