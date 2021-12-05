@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: Post notification
       run: |
-        curl --data '{"text": "hej lol"}' -H "Content-type: application/json" ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl --data '{"text": "Så har bøffen sgu commited"}' -H "Content-type: application/json" ${{ secrets.SLACK_WEBHOOK_URL }}
