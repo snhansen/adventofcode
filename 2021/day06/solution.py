@@ -15,3 +15,13 @@ print(sum([no_fish(x, 80) for x in ls]))
 
 # Part 2
 print(sum([no_fish(x, 256) for x in ls]))
+
+# A somewhat simpler solution.
+counts = [ls.count(i) for i in range(9)]
+
+for i in range(256):
+    zeros = counts.pop(0)
+    counts[6] += zeros
+    counts.append(zeros)
+    if i + 1 in [80, 256]:
+        print(sum(counts))     
