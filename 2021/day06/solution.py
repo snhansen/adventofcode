@@ -24,4 +24,12 @@ for i in range(256):
     counts[6] += zeros
     counts.append(zeros)
     if i + 1 in [80, 256]:
-        print(sum(counts))     
+        print(sum(counts))
+
+# A different solution based on a circular array. Here the counts are so that after x days, the number of fish with 0 days left is stored at counts[x%9], the number of fisk with 1 day left is stored at counts[x%9 + 1] etc.
+counts = [ls.count(i) for i in range(9)]
+
+for i in range(256):
+    counts[(i + 7) % 9] += counts[i % 9]
+    if i + 1 in [80, 256]:
+        print(sum(counts))
