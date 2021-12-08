@@ -9,26 +9,17 @@ print(len([y for l in inp for y in l.strip().split(' | ')[1].split() if len(y) i
 # Part 2
 def get_number(s, seg):
     vals = ''.join(sorted([str(seg[x]) for x in s]))
-    if vals == '012456':
-        return '0'
-    elif vals == '25':
-        return '1'
-    elif vals == '02346':
-        return '2'
-    elif vals == '02356':
-        return '3'
-    elif vals == '1235':
-        return '4'
-    elif vals == '01356':
-        return '5'
-    elif vals == '013456':
-        return '6'
-    elif vals == '025':
-        return '7'
-    elif vals == '0123456':
-        return '8'
-    elif vals == '012356':
-        return '9'
+    match vals:
+        case '012456':  return '0'
+        case '25':      return '1'
+        case '02346':   return '2'
+        case '02356':   return '3'
+        case '1235':    return '4'
+        case '01356':   return '5'
+        case '013456':  return '6'
+        case '025':     return '7'
+        case '0123456': return '8'
+        case '012356':  return '9'
 
 output = []
 for l in inp:
