@@ -1,4 +1,4 @@
-with open("input") as f:
+with open('input') as f:
     inp = f.read().strip().split()
 
 grid = {}
