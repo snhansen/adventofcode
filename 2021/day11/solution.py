@@ -1,34 +1,32 @@
-with open('input') as f:
+with open("input") as f:
     inp = f.read().strip().split()
 
 grid = {}
 
 for i, x in enumerate(inp):
     for j, y in enumerate(x):
-        grid[j+i*1j] = int(y)
+        grid[j + i * 1j] = int(y)
 
-pos = [-1, 1, -1j, 1j, 1+1j, 1-1j, -1+1j, -1-1j]
+pos = [-1, 1, -1j, 1j, 1 + 1j, 1 - 1j, -1 + 1j, -1 - 1j]
+
 
 def update_grid(g):
     for x in g:
         g[x] += 1
-    g_new = dict(g)
     seen = set()
     while True:
-        to_check = set(y for y, v in list(g_new.items()) if v > 9) - seen
+        to_check = {y for y, v in g.items() if v > 9} - seen
         if not to_check:
-            break
+            for x in g:
+                if g[x] > 9:
+                    g[x] = 0
+            return len(seen), g
         for x in to_check:
             seen.add(x)
             for p in pos:
-                if x+p in g and g_new[x+p] <= 9:  
-                    g_new[x+p] += 1
+                if x + p in g:
+                    g[x + p] += 1
 
-    for x in g_new:
-        if g_new[x] > 9:
-            g_new[x] = 0
-
-    return len(seen), g_new
 
 # Part 1 and 2
 c_tot = 0
