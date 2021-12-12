@@ -27,7 +27,6 @@ while to_check:
                 continue
             if not twice and criterion:
                 to_check.append((path + [x], True))
-                continue
             else:
                 to_check.append((path + [x], twice))
 
