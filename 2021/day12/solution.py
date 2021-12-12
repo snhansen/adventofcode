@@ -32,7 +32,7 @@ while to_check:
                 to_check.append((path + [x], twice))
 
 # Part 1
-print(len([1 for p, twice in paths if not twice]))
+print(sum(not twice for _, twice in paths))
 
 # Part 2
 print(len(paths))
