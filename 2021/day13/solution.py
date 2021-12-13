@@ -16,7 +16,7 @@ for f in inp2.split('\n'):
     folds.append((x,int(y)))
 
 def print_paper(p, dims):
-    chars = {0: '.', 1: '#'}
+    chars = {0: ' ', 1: u"\u25A0"}
     for r in range(dims[0]+1):
         print(''.join([chars[p[c+r*1j]] for c in range(dims[1]+1)]))
 
