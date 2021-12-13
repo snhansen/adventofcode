@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 with open('input') as f:
-    inp = f.read()
+    inp = f.read().strip()
 
 inp1, inp2 = inp.split('\n\n')
 
