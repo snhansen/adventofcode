@@ -1,22 +1,18 @@
 from collections import defaultdict, Counter
 
-with open('input') as f:
-    inp = [x.strip() for x in f.readlines()]
-
-s = inp.pop(0)
+start, end = open('input').read().split('\n\n')
 
 rules = {}
-for l in inp:
-    if l:
-        lhs, rhs = l.split(' -> ')
-        rules[lhs] = rhs
+for l in end.strip().split('\n'):
+    lhs, rhs = l.split(' -> ')
+    rules[lhs] = rhs
 
-pairs = Counter([s[i:i+2] for i in range(len(s)-1)])
+pairs = Counter([start[i:i+2] for i in range(len(start)-1)])
 
 
 def update(d):
     new_d = defaultdict(int)
-    for p in d.keys():
+    for p in d:
         new_d[p[0] + rules[p]] += d[p]
         new_d[rules[p] + p[1]] += d[p]
     return new_d
@@ -27,8 +23,8 @@ def get_result(ps):
         for c in p:
             counts[c] += val
     for c in counts:
-        counts[c] = (counts[c] // 2)
-        if c in [s[0], s[-1]]:
+        counts[c] = counts[c] // 2
+        if c in [start[0], start[-1]]:
             counts[c] += 1
     return max(counts.values()) - min(counts.values())
 
