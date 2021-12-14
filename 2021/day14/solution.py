@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 with open('input') as f:
     inp = [x.strip() for x in f.readlines()]
@@ -11,10 +11,7 @@ for l in inp:
         lhs, rhs = l.split(' -> ')
         rules[lhs] = rhs
 
-
-pairs = defaultdict(int)
-for i in range(len(s)-1):
-    pairs[s[i:i+2]] += 1
+pairs = Counter([s[i:i+2] for i in range(len(s)-1)])
 
 
 def update(d):
@@ -22,14 +19,13 @@ def update(d):
     for p in d.keys():
         new_d[p[0] + rules[p]] += d[p]
         new_d[rules[p] + p[1]] += d[p]
-        d[p] = 0
     return new_d
 
 def get_result(ps):
     counts = defaultdict(int)
-    for p in ps.keys():
+    for p, val in ps.items():
         for c in p:
-            counts[c] += pairs[p]
+            counts[c] += val
     for c in counts:
         counts[c] = (counts[c] // 2)
         if c in [s[0], s[-1]]:
