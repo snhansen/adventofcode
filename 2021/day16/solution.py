@@ -19,10 +19,8 @@ def decode(s):
         while True:
             res += s[1: 5]
             if s[0] == '0':
-                s = s[5: ]
-                break
+                return int(res, 2), s[5: ]
             s = s[5: ]
-        return int(res, 2), s
     
     id = s[6]
     ls = []
