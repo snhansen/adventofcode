@@ -33,11 +33,11 @@ def decode(s):
         s = s[22+l: ]
     else:
         n = int(s[7: 18], 2)
-        sub_s = s[18: ]
+        s = s[18: ]
         for i in range(n):
-            val, sub_s = decode(sub_s)
+            val, s = decode(s)
             ls.append(val)
-        s = sub_s 
+    
     if type == 0:
         return sum(ls), s
     elif type == 1:
