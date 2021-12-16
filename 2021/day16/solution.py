@@ -10,7 +10,7 @@ version_sum = 0
 
 def decode(s):
     global version_sum
-    version = int(s[0: 3] ,2)
+    version = int(s[0: 3], 2)
     version_sum += version
     type = int(s[3: 6], 2)
     if type == 4:
