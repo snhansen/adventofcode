@@ -1,8 +1,8 @@
 with open('input') as f:
     inp = f.read()
 
-elfs = inp.split('\n\n')
-cals = [sum(map(int, elf.split('\n'))) for elf in elfs]
+elves = inp.split('\n\n')
+cals = [sum(map(int, elf.split('\n'))) for elf in elves]
 cals.sort()
 
 # Part 1
