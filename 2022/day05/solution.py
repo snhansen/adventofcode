@@ -17,17 +17,15 @@ for line in inp:
 stacks = list(map(deque, stacks))
 
 # Part 1
-
 stacks_cp = copy.deepcopy(stacks)
 for move in moves:
     n, fr, to = move
     for _ in range(n):
         stacks_cp[to-1].appendleft(stacks_cp[fr-1].popleft())
 
-print(''.join([stacks_cp[i][0] for i in range(len(stacks_cp))]))
+print(''.join([stack[0] for stack in stacks_cp]))
 
 # Part 2
-
 stacks_cp = copy.deepcopy(stacks)
 for move in moves:
     n, fr, to = move
@@ -36,4 +34,4 @@ for move in moves:
         stack.append(stacks_cp[fr-1].popleft())
     stacks_cp[to-1].extendleft(reversed(stack))
 
-print(''.join([stacks_cp[i][0] for i in range(len(stacks_cp))]))
+print(''.join([stack[0] for stack in stacks_cp]))
