@@ -21,8 +21,8 @@ for line in inp:
             sizes[folder] += size
 
 # Part 1
-print(sum([size for size in sizes.values() if size <= 100000]))
+print(sum(size for size in sizes.values() if size <= 100000))
 
 # Part 2
 free = 70000000 - sizes["/"]
-print(min([size for size in sizes.values() if size + free >= 30000000]))
+print(min(size for size in sizes.values() if size + free >= 30000000))
