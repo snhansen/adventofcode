@@ -7,18 +7,16 @@ with open("input") as f:
 sizes = defaultdict(int)
 path = []
 for line in inp:
-    if line[0:4] == "$ cd":
-        dir_ = line[5:]
-        if dir_ != "..":
-            path.append(dir_)
-        else:
+    match line.split():
+        case ["$", "cd", ".."]:
             path.pop()
-    if line[0].isnumeric():
-        size, _ = line.split(" ")
-        size = int(size)
-        for i in range(len(path)):
-            folder = "/" + "".join([f"{dir}/" for dir in path[1:i+1]])
-            sizes[folder] += size
+        case ["$", "cd", dir_]:
+            path.append(dir_)
+        case [x, _] if x.isnumeric():
+            for i in range(len(path)):
+                folder = "/" + "".join([f"{dir_}/" for dir_ in path[1:i+1]])
+                sizes[folder] += int(x)
+
 
 # Part 1
 print(sum(size for size in sizes.values() if size <= 100000))
