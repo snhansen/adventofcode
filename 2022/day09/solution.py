@@ -19,7 +19,7 @@ for line in inp:
     steps = int(steps)
     for _ in range(steps):
         pos = list(visited[-1])
-        pos[0] = pos[0] + dirs[dir]
+        pos[0] += dirs[dir]
         for i in range(1,10):
             pos[i] = get_next_pos(pos[i-1], pos[i])
         visited.append(pos)
