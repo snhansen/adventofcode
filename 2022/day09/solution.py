@@ -1,14 +1,13 @@
-import numpy as np
-
 with open("input") as f:
     inp = f.read().strip().split("\n")
 
+sign = lambda a: (a > 0) - (a < 0)
 
 def get_next_pos(h, t):
     if abs(h.real - t.real) <= 1 and abs(h.imag - t.imag) <= 1:
         return t
     else:
-        inc = np.sign(h.real - t.real) + np.sign(h.imag - t.imag)*1j
+        inc = sign(h.real - t.real) + sign(h.imag - t.imag)*1j
         return t + inc
 
 
