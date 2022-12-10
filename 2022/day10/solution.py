@@ -18,7 +18,7 @@ for row in range(6):
     pixels = []
     for cycle in range(40):
         x = vals[row*40 + cycle]
-        draw = "#" if abs(cycle - x) <= 1 else "."
+        draw = "█" if abs(cycle - x) <= 1 else " "
         pixels.append(draw)
     screen.append(pixels)
 
