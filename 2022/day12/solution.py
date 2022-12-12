@@ -8,10 +8,13 @@ cols = len(inp[0])
 grid = {j + i*1j: inp[i][j] for i in range(rows) for j in range(cols)}
 
 
-def solve(grid):
-    start = [p for p, c in grid.items() if c == "S"][0]
+def solve(part2 = False):
     to_check = deque()
-    to_check.append((start, ord("a"), 0))
+    for p, c in grid.items():
+        if c == "S":
+            to_check.append((p, ord("a"), 0))
+        if part2 and c == "a":
+            to_check.append((p, ord("a"), 0))
     seen = {}
     while to_check:
         p, elev, steps = to_check.popleft()
@@ -27,23 +30,10 @@ def solve(grid):
             new_elev = ord(new_elev) if new_elev.islower() else ord("z")
             if elev + 1 >= new_elev:
                 to_check.append((p + dp, new_elev, steps + 1))
-    return None
 
 
 # Part 1
-ans = solve(grid)
-print(ans)
+print(solve())
 
 # Part 2
-start = [p for p, c in grid.items() if c == "S"][0]
-m = ans
-for p, c in grid.items():
-    if c == "a":
-        grid_cp = dict(grid)
-        grid_cp[p] = "S"
-        grid_cp[start] = "a"
-        res = solve(grid_cp)
-        if res:
-            m = min(m, res)
-
-print(m)
+print(solve(True))
