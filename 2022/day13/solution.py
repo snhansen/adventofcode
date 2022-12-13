@@ -12,23 +12,19 @@ def right_order(ls1, ls2):
         if ls1 < ls2:
             return True
         return None
-    if isinstance(ls1, list) and isinstance(ls2, list):
-        ls1 = list(ls1)
-        ls2 = list(ls2)
-        while True:
-            if len(ls1) == 0 or len(ls2) == 0:
-                return right_order(len(ls1), len(ls2))
-            x1, x2 = ls1.pop(0), ls2.pop(0)
-            if isinstance(x1, int) and isinstance(x2, list):
-                x1 = [x1]
-            if isinstance(x1, list) and isinstance(x2, int):
-                x2 = [x2]
+    if isinstance(ls1, int) and isinstance(ls2, list):
+        ls1 = [ls1]
+    if isinstance(ls1, list) and isinstance(ls2, int):
+        ls2 = [ls2]
+    while True:
+        for x1, x2 in zip(ls1, ls2):
             res = right_order(x1, x2)
             if res is None:
                 continue
             else:
                 return res
-        
+        return right_order(len(ls1), len(ls2))
+
 
 # Part 1
 print(sum(i+1 for i, (ls1, ls2) in enumerate(ls) if right_order(ls1, ls2)))
