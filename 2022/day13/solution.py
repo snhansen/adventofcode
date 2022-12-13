@@ -5,25 +5,20 @@ with open("input") as f:
 
 ls = [[ast.literal_eval(y) for y in x.split("\n")] for x in inp.split("\n\n")]
 
-def right_order(s1, s2):
-    if isinstance(s1, int) and isinstance(s2, int):
-        if s1 > s2:
+def right_order(ls1, ls2):
+    if isinstance(ls1, int) and isinstance(ls2, int):
+        if ls1 > ls2:
             return False
-        if s1 < s2:
+        if ls1 < ls2:
             return True
         return None
-    if isinstance(s1, list) and isinstance(s2, list):
-        s1 = list(s1)
-        s2 = list(s2)
+    if isinstance(ls1, list) and isinstance(ls2, list):
+        ls1 = list(ls1)
+        ls2 = list(ls2)
         while True:
-            if len(s1) == 0 and len(s2) > 0:
-                return True
-            elif len(s2) == 0 and len(s1) > 0:
-                return False
-            elif len(s1) == 0 and len(s2) == 0:
-                return None
-            x1 = s1.pop(0)
-            x2 = s2.pop(0)
+            if len(ls1) == 0 or len(ls2) == 0:
+                return right_order(len(ls1), len(ls2))
+            x1, x2 = ls1.pop(0), ls2.pop(0)
             if isinstance(x1, int) and isinstance(x2, list):
                 x1 = [x1]
             if isinstance(x1, list) and isinstance(x2, int):
@@ -36,7 +31,7 @@ def right_order(s1, s2):
         
 
 # Part 1
-print(sum([i+1 for i, (ls1, ls2) in enumerate(ls) if right_order(ls1, ls2)]))
+print(sum(i+1 for i, (ls1, ls2) in enumerate(ls) if right_order(ls1, ls2)))
 
 # Part 2
 ls = [ast.literal_eval(y) for x in inp.split("\n\n") for y in x.split("\n")]
@@ -44,13 +39,13 @@ div_packets = [[[2]], [[6]]]
 ordered_list = [p for p in div_packets]
 
 while ls:
-    l = ls.pop()
+    l1 = ls.pop()
     for i, l2 in enumerate(ordered_list):
-        res = right_order(l, l2)
+        res = right_order(l1, l2)
         if res:
-            ordered_list.insert(i, l)
+            ordered_list.insert(i, l1)
             break
-    if l not in ordered_list:
-        ordered_list.append(l)
+    if l1 not in ordered_list:
+        ordered_list.append(l1)
             
 print((ordered_list.index(div_packets[0])+1)*(ordered_list.index(div_packets[1])+1))
