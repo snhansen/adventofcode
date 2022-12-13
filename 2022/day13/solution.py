@@ -19,10 +19,7 @@ def right_order(ls1, ls2):
         ls2 = [ls2]
     while True:
         for x1, x2 in zip(ls1, ls2):
-            res = right_order(x1, x2)
-            if res is None:
-                continue
-            else:
+            if (res := right_order(x1, x2)) is not None:
                 return res
         return right_order(len(ls1), len(ls2))
 
