@@ -32,10 +32,7 @@ def drop_rock(height, rock_type, jet_pos, rocks):
 
 
 def xheight(rocks):
-    ls = []
-    for x in range(7):
-        ls.append(int(max([p.imag for p in rocks if p.real == x])))
-    return tuple(ls)
+    return tuple(int(max([p.imag for p in rocks if p.real == x])) for x in range(7))
 
 
 def run(n, rocks = set(range(7)), jet_pos = 0, rock_type = 0):
