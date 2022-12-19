@@ -15,8 +15,8 @@ def solve(time_stop, ore_rob_ore, clay_rob_ore, obs_rob_ore, obs_rob_clay, geo_r
             return geo
         
         # Looking at the input, we notice that we can at most use 4 ore, 20 clay and 20 obsidian per turn. Hence there is
-		# no need to collect more ressources that we can spend given the remaining time.
-		# We truncate the resources at the maximum quantity that we can spend to reduce the search space.
+        # no need to collect more resources that we can spend given the remaining time.
+        # We truncate the resources at the maximum quantity that we can spend to reduce the search space.
         ore_max_use = 4*(time_stop-time)
         ore_will_get = rob1*(time_stop-time-1)
         ore = min(ore, ore_max_use-ore_will_get)
