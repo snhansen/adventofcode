@@ -1,72 +1,51 @@
 with open("input") as f:
     inp = f.read().strip()
 
-nums = list(map(int, inp.split("\n")))
+
+class Item:
+    def __init__(self, value = None):
+        self.value = value
+        self.next = None
+        self.prev = None
 
 
-def move_forwards(prevs, nexts, index, val):
-    new_nexts = dict(nexts)
-    new_prevs = dict(prevs)
-    prev = prevs[index]
-    next = nexts[index]    
-    new_nexts[prev] = next
-    new_prevs[next] = prev
-    for _ in range(val-1):
-        next = nexts[next]
-    new_nexts[next] = index
-    new_prevs[index] = next
-    nextnext = nexts[next]
-    new_nexts[index] = nextnext
-    new_prevs[nextnext] = index
-    return new_prevs, new_nexts
-
-
-def move_backwards(prevs, nexts, index, val):
-    new_nexts = dict(nexts)
-    new_prevs = dict(prevs)
-    prev = prevs[index]
-    next = nexts[index]
-    new_nexts[prev] = next
-    new_prevs[next] = prev
-    for _ in range(val-1):
-        prev = prevs[prev]
-    new_prevs[prev] = index
-    new_nexts[index] = prev
-    prevprev = prevs[prev]
-    new_prevs[index] = prevprev
-    new_nexts[prevprev] = index
-    return new_prevs, new_nexts
-
-
-def solve(nums, part2 = False):
-    n = len(nums)
-    prevs = {i: (i-1)%n for i in range(n)}
-    nexts = {i: (i+1)%n for i in range(n)}
-    runs = 10 if part2 else 1
-    if part2:
-        nums = [num*811589153 for num in nums]
-    for _ in range(runs):
-        for index, val in enumerate(nums):
-            sgn = (val>0) - (val<0)
-            val = abs(val)%(n-1)
-            if val == 0:
-                continue
-            if sgn == 1:
-                prevs, nexts = move_forwards(prevs, nexts, index, val)
-            else:
-                prevs, nexts = move_backwards(prevs, nexts, index, val)
+def solve(part2 = False):
+    mult = 811589153 if part2 else 1
+    ll = [Item(num*mult) for num in nums] 
+    for i, item in enumerate(ll):
+        item.next = ll[(i+1)%len(ll)]
+        item.prev= ll[(i-1)%len(ll)]
     
-    index = nums.index(0)
+    for _ in range(10 if part2 else 1):
+        for item in ll:
+            moves = item.value % (len(ll)-1)
+            if moves == 0:
+                continue
+            item.prev.next = item.next
+            item.next.prev = item.prev
+            ins_prev = item.prev
+            ins_next = item.next
+            for _ in range(moves):
+                ins_prev = ins_prev.next
+                ins_next = ins_next.next
+            ins_prev.next = item
+            item.prev = ins_prev
+            ins_next.prev = item
+            item.next = ins_next
+
+
+    item = next(p for p in ll if p.value == 0)
     res = 0
-    for c in range(3000):
-        index = nexts[index]
-        if (c+1)%1000 == 0:
-            res += nums[index]
+    for _ in range(3):
+        for _ in range(1000):
+            item = item.next
+        res += item.value
     return res
 
+nums = list(map(int, inp.split("\n")))
 
 # Part 1
-print(solve(nums))
+print(solve())
 
 # Part 2
-print(solve(nums, True))
+print(solve(True))
