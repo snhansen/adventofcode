@@ -9,18 +9,17 @@ R = len(lines) - 2
 C = len(lines[0]) - 2
 dirs_dict = {">": 1, "<": -1, "^": -1j, "v": 1j}
 
-blizzards = defaultdict(list)
-dirs = []
+blizzards_init = []
 for y, line in enumerate(lines):
     for x, c in enumerate(line):
         if c not in [".", "#"]:
-            blizzards[0].append((x-1)+(y-1)*1j)
-            dirs.append(dirs_dict[c])
+            blizzards_init.append(((x-1)+(y-1)*1j, dirs_dict[c]))
 
-for t in range(math.lcm(R, C)-1):
-    for p, dir in zip(blizzards[t], dirs):
-        blizzards[t+1].append((p.real+dir.real)%C + ((p.imag+dir.imag))%R*1j)
-       
+blizzards = defaultdict(set)
+for t in range(0, math.lcm(R, C)):
+    for p, dir in blizzards_init:
+        blizzards[t].add((p.real+dir.real*t)%C + ((p.imag+dir.imag*t))%R*1j)
+
 
 def min_steps(start, end, time_start):
     q = deque()
@@ -41,7 +40,7 @@ def min_steps(start, end, time_start):
         # Wait.
         q.append((t+1, p))
         # Try move in all four directions.
-        for dp in [0, -1, 1, 1j, -1j]:
+        for dp in [-1, 1, 1j, -1j]:
             p_new = p+dp
             if 0 <= p_new.real <= C-1 and 0 <= p_new.imag <= R-1:
                 q.append((t+1, p_new))
@@ -49,10 +48,13 @@ def min_steps(start, end, time_start):
                 q.append((t+1, p_new))
  
 
+# Part 1
 start = 0-1j
-end = (C-1) + R*1j 
+end = (C-1) + R*1j
 t1 = min_steps(start, end, 0)
+print(t1)
+
+# Part 2
 t2 = min_steps(end, start, t1)
 t3 = min_steps(start, end, t1+t2)
-print(t1)
 print(t1+t2+t3)
