@@ -3,8 +3,7 @@ dists = [242, 1017, 1691, 1252]
 
 # Part 1
 def get_dist(charge, time):
-    speed = charge
-    dist = speed*(time-charge)
+    dist = charge*(time-charge)
     return dist
 
 res = 1
