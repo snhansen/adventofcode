@@ -8,7 +8,7 @@ with open("input") as f:
 dirs = inp[0]
 network = {}
 for line in inp[2:]:
-    elements = re.findall(r"\b\w{3}\b", line)
+    elements = re.findall("\w+", line)
     network[elements[0]] = (elements[1], elements[2])
 
 
