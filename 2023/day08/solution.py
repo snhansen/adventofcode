@@ -5,36 +5,27 @@ from functools import reduce
 with open("input") as f:
     inp = f.read().strip().split("\n")
 
-
 dirs = inp[0]
 network = {}
 for line in inp[2:]:
     elements = re.findall(r"\b\w{3}\b", line)
     network[elements[0]] = (elements[1], elements[2])
 
-# Part 1
-p = "AAA"
-step = 0
 
-while p != "ZZZ":
-    dir_ = dirs[step%(len(dirs))]
-    lr = 0 if dir_ == "L" else 1
-    p = network[p][lr]
-    step += 1
-
-print(step)
-    
-# Part 2
-ps = [p for p in network.keys() if p[2] == "A"]
-steps = []
-
-for p in ps:
+def get_steps(p, part2):
     step = 0
-    while p[2] != "Z":
+    while True:
+        if (p == "ZZZ" and not part2) or (p[2] == "Z" and part2):
+            return step
         dir_ = dirs[step%(len(dirs))]
         lr = 0 if dir_ == "L" else 1
         p = network[p][lr]
         step += 1
-    steps.append(step)
 
+
+# Part 1
+print(get_steps("AAA", False))
+    
+# Part 2
+steps = [get_steps(p, True) for p in network.keys() if p[2] == "A"]
 print(reduce(math.lcm, steps))
