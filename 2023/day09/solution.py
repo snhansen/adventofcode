@@ -20,11 +20,12 @@ def get_prediction(seq):
 
 
 # Part 1
-print(sum([get_prediction(seq) for seq in seqs]))
+print(sum(map(get_prediction, seqs)))
 
 # Part 2
 def get_prediction2(seq):
     inc = sum([d[0]*(-1)**k for k, d in enumerate(get_diffs(seq))])
     return seq[0] - inc
 
-print(sum([get_prediction2(seq) for seq in seqs]))
+
+print(sum(map(get_prediction2, seqs)))
