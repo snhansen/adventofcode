@@ -2,6 +2,7 @@ with open("input") as f:
     inp = f.read().strip().split()
 
 grid = {j+i*1j: inp[i][j] for i in range(len(inp)) for j in range(len(inp[0]))}
+start_grid = dict(grid)
 n_col = len(inp[0])
 n_row = len(inp)
 
@@ -62,13 +63,8 @@ while True:
         break
     seen.append(dict(grid))
 
-
 n_cycles = 1_000_000_000
 k = seen.index(grid)
 cycle_length = len(seen) - k
-steps = (n_cycles // cycle_length)
-while k + cycle_length*(steps + 1) > n_cycles:
-    steps -= 1
-
-m = n_cycles - cycle_length*steps
-print(total_load(cycle(seen[-1], m - len(seen) + 1)))
+m = (n_cycles - k) % cycle_length + k
+print(total_load(seen[m]))
