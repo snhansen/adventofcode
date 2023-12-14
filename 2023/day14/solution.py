@@ -64,10 +64,10 @@ while True:
 
 
 n_cycles = 1_000_000_000
-k = len(seen)
-cycle_length = k - seen.index(grid)
+k = seen.index(grid)
+cycle_length = len(seen) - k
 steps = (n_cycles // cycle_length)
-while k + cycle_length*steps > n_cycles:
+while k + cycle_length*(steps + 1) > n_cycles:
     steps -= 1
 
 m = n_cycles - cycle_length*steps
