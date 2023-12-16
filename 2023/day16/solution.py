@@ -14,10 +14,8 @@ def n_energized(start, dir_):
     seen = set()
     to_check = []
     to_check.append((start, dir_))
-
     while to_check:
-        p, dir_ = to_check.pop(0)
-        #print(f"Position {p} in direction {dir_}")
+        p, dir_ = to_check.pop()
         if p not in grid:
             continue
         if (p, dir_) in seen:
@@ -26,7 +24,6 @@ def n_energized(start, dir_):
         if grid[p] == ".":
             to_check.append((p+dir_, dir_))
         else:
-            #print(f"Angles to check: {angles[dir_][grid[p]]}")
             for angle in angles[dir_][grid[p]]:
                 new_dir = dir_*angle
                 to_check.append((p + new_dir, new_dir))
@@ -39,12 +36,8 @@ def n_energized(start, dir_):
 print(n_energized(0, 1))
 
 # Part 2
-m = 0
-for i in range(len(inp[0])):
-    m = max(m, n_energized(i, 1j))
-    m = max(m, n_energized(i + len(inp)*1j, -1j))
-for j in range(len(inp)):
-    m = max(m, n_energized(j*1j, 1))
-    m = max(m, n_energized(len(inp[0]) + j*1j, -11))
+r, c = len(inp[0]), len(inp)
+starts = [(i + k*c*1j, 1j*(k==0)) for i in range(r) for k in range(2)]
+starts += [(k*r + j*1j, -1*(k==0)) for j in range(c) for k in range(2)]
 
-print(m)
+print(max(n_energized(*start) for start in starts))
