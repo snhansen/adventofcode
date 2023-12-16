@@ -37,7 +37,7 @@ print(n_energized(0, 1))
 
 # Part 2
 r, c = len(inp[0]), len(inp)
-starts = [(i + k*c*1j, 1j*(k==0)) for i in range(r) for k in range(2)]
-starts += [(k*r + j*1j, -1*(k==0)) for j in range(c) for k in range(2)]
+starts = [(i + k*c*1j, dir_) for i in range(r) for k, dir_ in enumerate((1j, -1j))]
+starts += [(k*r + j*1j, -1*(k==0)) for j in range(c) for k, dir_ in enumerate((-1, 1))]
 
 print(max(n_energized(*start) for start in starts))
