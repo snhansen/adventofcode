@@ -9,7 +9,7 @@ corner = (len(inp[0]) - 1) + (len(inp) - 1)*1j
 
 # Part 1
 
-# state = (heat, id(pos), p, dp, moved_blocks)
+# state = (heat, id, position, direction_moved, moved_blocks)
 q = [(grid[p], id(p), p, p, 1) for p in [1, 1j]]
 min_heat = defaultdict(lambda: float("inf"))
 
@@ -39,7 +39,7 @@ while q:
 
 # Part 2
 
-# state = (heat, id(pos), p, dp, moved_blocks)
+# state = (heat, id, position, direction_moved, moved_blocks)
 q = [(grid[p], id(p), p, p, 1) for p in [1, 1j]]
 min_heat = defaultdict(lambda: float("inf"))
 
