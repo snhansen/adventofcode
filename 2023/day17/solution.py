@@ -20,7 +20,6 @@ while q:
     if p == corner:
         print(heat)
         break
-    to_push = []
     dirs = [dp*1j, -dp*1j]
     # Turn.
     for new_dp in dirs:
@@ -47,8 +46,7 @@ while q:
     if (p == corner) & (blocks >= 4):
         print(heat)
         break
-    to_push = []
-    # If moved less than 10 block we can continue in the same direction.
+    # If moved less than 10 blocks we can continue in the same direction.
     if blocks < 10:
         new_p = p + dp
         if new_p in grid:
