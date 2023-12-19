@@ -69,10 +69,8 @@ while (any(node not in ["A", "R"] for node, _ in paths)):
 ans = 0
 for rating in ratings:
     for out, rules in paths:
-        cont = False
-        if all((rules[c][0] <= v) and (v <= rules[c][1]) for c, v in rating.items()):
-            if out == "A":
-                ans += sum(rating.values())
+        if (out == "A") and all((rules[c][0] <= v) and (v <= rules[c][1]) for c, v in rating.items()):
+            ans += sum(rating.values())
             break
 
 print(ans)
