@@ -1,3 +1,5 @@
+import numpy as np
+
 with open("input") as f:
     inp = f.read().strip().split("\n")
 
@@ -21,7 +23,8 @@ ps.add(start)
 steps = 26501365
 rest = steps % R
 
-for m in range(rest+2*R):
+g = []
+for step in range(rest+2*R):
     new_ps = set()
     for p in ps:
         for dp in [-1, 1, 1j, -1j]:
@@ -30,15 +33,17 @@ for m in range(rest+2*R):
             if grid[cor_p] == ".":
                 new_ps.add(new_p)
     ps = new_ps
-    if m == 63:
+    if step == 63:
         print(len(ps)) # Part 1
-    if (m+1) % R == rest:
-        print((m+1)//R, m+1, len(ps)) # Points to fit 
+    if (step+1) % R == rest:
+        g.append(len(ps)) # Part 2
+
+coefs = np.polyfit([0, 1, 2], g, 2)
+coefs = list(map(round, coefs))
 
 
-# This is the corresponding polynomial.
 def n_gardens(steps):
-    return 3738+14836*steps+14696*steps**2
+    return coefs[2] + coefs[1]*steps + coefs[0]*steps**2
 
 
 print(n_gardens(steps // R))
