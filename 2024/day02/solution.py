@@ -18,7 +18,7 @@ print(sum(is_safe(x) for x in inp))
 # Part 2
 ans = 0
 for line in inp:
-    for i in range(len(inp)):
+    for i in range(len(line)):
         temp = line[:i] + line[(i+1):]
         if is_safe(temp):
             ans += 1
