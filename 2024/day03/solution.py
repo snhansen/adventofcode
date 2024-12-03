@@ -9,22 +9,12 @@ with open("input") as f:
 print(sum((prod(map(int, m)) for m in re.findall("mul\((\d+),(\d+)\)", inp))))
 
 # Part 2
-mults = re.finditer("mul\((\d+),(\d+)\)", inp)
-dos = re.finditer("do\(\)|don't\(\)", inp)
-
-iter_ = []
-
-for m in mults:
-    iter_.append((m.start(0), m.end(0), m.group()))
-
-for m in dos:
-    iter_.append((m.start(0), m.end(0), m.group()))
-    
-iter_.sort(key = lambda x: x[0])
+iter_ = re.finditer("mul\((\d+),(\d+)\)|do\(\)|don't\(\)", inp)
 
 do = True
 ans = 0
-for i, _, s in iter_:
+for x in iter_:
+    s = x.group()
     if s == "don't()":
         do = False
     elif s == "do()":
