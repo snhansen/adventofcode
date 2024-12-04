@@ -9,7 +9,6 @@ def get_substr(p, dir_, length):
     for dp in range(length-1):
         if (p + (dp+1)*dir_) not in grid.keys():
             return False
-            print(1)
         res += grid[p + (dp+1)*dir_]
     return res
 
