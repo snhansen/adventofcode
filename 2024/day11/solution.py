@@ -12,10 +12,9 @@ def get_no_stones(stone, n):
         return 1
     if stone == 0:
         res = get_no_stones(1, n - 1)
-    elif len(str(stone)) % 2 == 0:
-        str_stone = str(stone)
-        mid = len(str_stone) // 2
-        res = get_no_stones(int(str_stone[:mid]), n - 1) + get_no_stones(int(str_stone[mid:]), n - 1)
+    elif len(s:= str(stone)) % 2 == 0:
+        mid = len(s) // 2
+        res = get_no_stones(int(s[:mid]), n - 1) + get_no_stones(int(s[mid:]), n - 1)
     else:
         res = get_no_stones(stone*2024, n - 1)
     return res
