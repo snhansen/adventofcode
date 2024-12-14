@@ -49,7 +49,7 @@ def print_(ps):
 t = 0
 while True:
     positions_end = move(positions, velocities, t)
-    if largest_component(move(positions, velocities, t)) > 20:
+    if largest_component(positions_end) > 20:
         print_(positions_end)
         print(t)
         break
