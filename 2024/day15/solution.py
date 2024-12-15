@@ -22,10 +22,10 @@ for i, l in enumerate(pt1.split("\n")):
 
 
 def move_boxes(p, dp, boxes):
-    to_move = []
+    to_move = set()
     while True:
         if p in boxes:
-            to_move.append(p)
+            to_move.add(p)
         elif p not in walls:
             break
         if p in walls:
@@ -44,7 +44,7 @@ for dp in instr:
     new_p = robot + dirs[dp]
     if new_p in walls:
         continue
-    if new_p not in walls | boxes:
+    elif new_p not in boxes:
         robot = new_p
         continue
     if new_p in boxes:
@@ -60,15 +60,15 @@ walls = set()
 boxes = {}
 for i, l in enumerate(pt1.split("\n")):
     j = 0
-    for x in l:
+    for c in l:
         p = j + i*1j
-        if x == "#":
+        if c == "#":
             walls.add(p)
             walls.add(p + 1)
-        elif x == "O":
+        elif c == "O":
             boxes[p] = p + 1
             boxes[p + 1] = p
-        elif x == "@":
+        elif c == "@":
             robot = p
         j += 2
 
@@ -108,7 +108,7 @@ for dp in instr:
     new_p = robot + dirs[dp]
     if new_p in walls:
         continue
-    if new_p not in walls | boxes.keys():
+    elif new_p not in boxes.keys():
         robot = new_p
         continue
     if new_p in boxes.keys():
