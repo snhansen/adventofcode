@@ -31,24 +31,18 @@ while q:
         break
     if p == end:
         best_score = score
-    for ddp in (1j, -1j):
-        new_dp = dp * ddp
-        if score + 1000 < scores[(p, new_dp)]:
-            scores[(p, new_dp)] = score + 1000
-            previous[(p, new_dp)] = {(p, dp)}
-            heappush(q, (score + 1000, make_id(), p, new_dp))
-        elif score + 1000 == scores[(p, new_dp)]:
-            previous[(p, new_dp)].add((p, dp))
-    new_p = p + dp
-    if new_p not in grid.keys():
-        continue
-    if grid[new_p] == ".":
-        if score + 1 < scores[(new_p, dp)]:
-            scores[(new_p, dp)] = score + 1
-            previous[(new_p, dp)] = {(p, dp)}
-            heappush(q, (score + 1, make_id(), new_p, dp))
-        elif score + 1 == scores[(new_p, dp)]:
-            previous[(new_p, dp)].add((p, dp))
+    new_ps = [p, p]
+    new_dps = [1j*dp, -1j*dp]
+    costs = [1000, 1000]
+    if p + dp in grid.keys() and grid[p + dp] == ".":
+        new_ps.append(p + dp)
+        new_dps.append(dp)
+        costs.append(1)
+    for new_p, new_dp, cost in zip(new_ps, new_dps, costs):
+        if score + cost <= scores[(new_p, new_dp)]:
+            scores[(new_p, new_dp)] = score + cost
+            previous[(new_p, new_dp)] |= {(p, dp)}
+            heappush(q, (score + cost, make_id(), new_p, new_dp))
 
 # Part 1
 print(best_score)
