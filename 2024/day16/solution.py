@@ -15,16 +15,11 @@ for p, c in grid.items():
         end = p
         grid[p] = "."
 
-
-def make_id():
-    return str(uuid.uuid4().fields[-1])[:20]
-
-
 scores = defaultdict(lambda: float("inf"))
-previous = defaultdict(set)
+previous = {}
 best_score = float("inf")
 
-q = [(0, make_id(), start, 1)]
+q = [(0, i := 0, start, 1)]
 while q:
     score, _, p, dp = heappop(q)
     if score > best_score:
@@ -39,10 +34,12 @@ while q:
         new_dps.append(dp)
         costs.append(1)
     for new_p, new_dp, cost in zip(new_ps, new_dps, costs):
-        if score + cost <= scores[(new_p, new_dp)]:
+        if score + cost < scores[(new_p, new_dp)]:
             scores[(new_p, new_dp)] = score + cost
-            previous[(new_p, new_dp)] |= {(p, dp)}
-            heappush(q, (score + cost, make_id(), new_p, new_dp))
+            previous[(new_p, new_dp)] = {(p, dp)}
+            heappush(q, (score + cost, i := i + 1, new_p, new_dp))
+        if score + cost == scores[(new_p, new_dp)]:
+            previous[(new_p, new_dp)].add((p, dp))
 
 # Part 1
 print(best_score)
