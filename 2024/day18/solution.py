@@ -7,9 +7,8 @@ bytes = [tuple(map(int, line.split(","))) for line in inp.split("\n")]
 N = 70
 g = nx.grid_2d_graph(N + 1, N + 1)
 
-for i, node in enumerate(list(g.nodes())):
-    if node in bytes[:1024]:
-        g.remove_node(node)
+for node in bytes[:1024]:
+    g.remove_node(node)
 
 # Part 1
 print(nx.shortest_path_length(g, (0, 0), (N, N)))
