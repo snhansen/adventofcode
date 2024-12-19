@@ -15,7 +15,7 @@ def no_ways(design):
     for pattern in patterns:
         if design[:len(pattern)] == pattern:
             to_check.append(pattern)
-    if len(to_check) == 0:
+    if not to_check:
         return 0
     else:
         return sum(no_ways(design[len(pattern):]) for pattern in to_check)
