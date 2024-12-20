@@ -26,11 +26,11 @@ while q:
         q.append(p + dp)
 
 pt1, pt2 = 0, 0
-for p1, p2 in combinations(times.keys(), 2):
+for (p1, t1), (p2, t2) in combinations(times.items(), 2):
     dist = abs(p1.real - p2.real) + abs(p1.imag - p2.imag)
     if dist <= 2:
-        pt1 += (times[end] - (times[p1] + times[end] - times[p2] + dist) >= 100)
+        pt1 += (times[end] - (t1 + times[end] - t2 + dist) >= 100)
     if dist <= 20:
-        pt2 += (times[end] - (times[p1] + times[end] - times[p2] + dist) >= 100)
+        pt2 += (times[end] - (t1 + times[end] - t2 + dist) >= 100)
 
 print(pt1, pt2)
