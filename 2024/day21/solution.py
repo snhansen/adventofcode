@@ -87,43 +87,27 @@ kp_dir_moves = {
 }
 
 
-def get_num_inputs(output):
+def get_inputs(output, graph, dict_):
     inputs = []
     for x, y in zip("A" + output, output):
-        sub_inputs = []
-        paths = nx.all_shortest_paths(kp_num, x, y)
-        for path in paths:
-            sub_inputs.append("".join(kp_num_moves[(u, v)] for u, v in zip(path, path[1:])) + "A")
+        paths = nx.all_shortest_paths(graph, x, y)
+        sub_inputs = ["".join(dict_[(u, v)] for u, v in zip(path, path[1:])) + "A" for path in paths]
         inputs.append(sub_inputs)
-
-    return [''.join(s) for s in product(*inputs)]
-
-
-def get_dir_inputs(output):
-    inputs = []
-    for x, y in zip("A" + output, output):
-        sub_inputs = []
-        paths = nx.all_shortest_paths(kp_dir, x, y)
-        for path in paths:
-            sub_inputs.append("".join(kp_dir_moves[(u, v)] for u, v in zip(path, path[1:])) + "A")
-        inputs.append(sub_inputs)
-    return [''.join(s) for s in product(*inputs)]
-
+    return [''.join(s) for s in product(*inputs)]    
+    
 
 @cache
-def min_length(buttons, n):
+def min_length(seq, n):
     if  n == 0:
-        return len(buttons)
-    assert buttons[-1] == "A"
-    if buttons.count("A") > 1:
-        ls = [x + "A" for x in buttons.split("A")][:-1]
-        return sum(min_length(pt, n) for pt in ls)
+        return len(seq)
+    if seq.count("A") > 1:
+        return sum(min_length(pt, n) for pt in [x + "A" for x in seq.split("A")][:-1])
     else:
-        return min(min_length(x, n - 1) for x in get_dir_inputs(buttons))
+        return min(min_length(x, n - 1) for x in get_inputs(seq, kp_dir, kp_dir_moves))
 
 
 def complexity(code, n):
-    seqs = get_num_inputs(code)
+    seqs = get_inputs(code, kp_num, kp_num_moves)
     min_len = min(min_length(seq, n) for seq in seqs)
     return min_len*int(code[:-1])
 
