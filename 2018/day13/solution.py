@@ -37,7 +37,6 @@ def update(carts):
     global first
     new_carts = []
     carts = sorted(carts, key = lambda x: (x[0].imag, x[0].real))
-    #for pc, dc, ic in carts:
     while carts:
         collision = False
         pc, dc, ic = carts.pop(0)
